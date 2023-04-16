@@ -23,7 +23,7 @@ namespace Tests
             var processor = new HRVReadingProcessor(null);
 
             //Act
-            await processor.Process(new List<HRVReading>());
+            await processor.Process(new List<HRVReading>(), "", "");
         }
 
         [TestMethod]
@@ -42,7 +42,7 @@ namespace Tests
             };
 
             //Act
-            await processor.Process(readings);
+            await processor.Process(readings, "", "");
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace Tests
             };
 
             //Act
-            var processorResult = processor.Process(readings);
+            var processorResult = processor.Process(readings, "", "");
 
             //Assert
             var targetDate = readings[0].DateTimeStart.ToString("yyyy-MM-dd");

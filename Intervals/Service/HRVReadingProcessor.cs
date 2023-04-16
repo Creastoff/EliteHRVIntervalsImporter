@@ -4,10 +4,10 @@ using Intervals.Service.Interface;
 
 namespace Intervals.Service
 {
-    public class HRVReadingProcessor
+    public class HRVReadingProcessor : IHRVReadingProcessor
     {
         public static string EXPECTED_READING_TYPE = "readiness";
-
+        private bool alreadySetBaseAddressAndAuthorizationHeader = false;
         private IIntervalsAPICommunicator intervalsAPICommunicator;
 
         public HRVReadingProcessor(IIntervalsAPICommunicator _intervalsAPICommunicator)
@@ -15,7 +15,7 @@ namespace Intervals.Service
             intervalsAPICommunicator = _intervalsAPICommunicator;
         }
 
-        public async Task<bool> Process(List<HRVReading> readings)
+        public async Task<bool> Process(List<HRVReading> readings, string id, string encodedAccessToken)
         {
             var processableHRVReadings = readings.Where(r => r.Type == EXPECTED_READING_TYPE).ToList();
 
@@ -30,6 +30,9 @@ namespace Intervals.Service
             {
                 throw new Exception($"No readings found with a readiness value. Note that readiness values are only available after the first few days of readings.");
             }
+
+            intervalsAPICommunicator.UserId = id;
+            intervalsAPICommunicator.EncodedAccessToken = encodedAccessToken;
 
             foreach (var hrvReading in processableHRVReadings)
             {

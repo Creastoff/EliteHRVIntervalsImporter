@@ -1,0 +1,58 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<p>
+    <label>
+        Intervals.icu credentials can be found <a href="https://intervals.icu/settings">here under 'Developer Settings'</a>
+    </label>
+</p>
+<p>
+    <label>
+        EliteHRV file can be found on <a href="https://dashboard.elitehrv.com/personal/data/individual">this page</a> by clicking: Export -> Select Date Range -> Export
+    </label>
+</p>
+
+<EditForm Model="@intervalsAccessCredentials" OnSubmit="@SubmitFile">
+    <p>
+        <label>
+            Intervals.icu UserId:
+            <InputText DisplayName="Intervals.icu UserId" id="intervalsId" @bind-Value="intervalsAccessCredentials.UserId" />
+        </label>
+    </p>
+    <p>
+        <label>
+            Intervals.icu Access Token:
+            <InputText DisplayName="Intervals.icu Access Token" id="accessToken" @bind-Value="intervalsAccessCredentials.AccessToken" />
+        </label>
+    </p>
+    <p hidden>
+        <label>
+            <InputCheckbox DisplayName="Intervals.icu Remember Details" id="rememberDetails" @bind-Value="intervalsAccessCredentials.IsAllowedToStore" />
+            Remember Details? (Can be seen by your browser when you access this website - if the website is compromised when you access it then you are at risk)
+        </label>
+    </p>
+    <p>
+        <label>
+            Max 500 KB
+            <InputFile OnChange="@LoadAndValidateHRVFile" style="@currentFileValidationStyling" />
+        </label>
+    </p>
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <p>
+            <label style="color: #8B0000">
+                Error: @errorMessage
+            </label>
+        </p>
+    }
+    <p>
+        <button type="submit" disabled="@fileSubmissionDisabled">Submit</button>
+    </p>
+
+    <p>
+        <label>
+            @submissionStatus
+        </label>
+    </p>
+</EditForm>
