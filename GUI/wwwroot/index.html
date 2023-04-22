@@ -20,6 +20,31 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        var currentHTTPState = -1;
+        var currentHTTPResponse = '';
+
+        function getCurrentHTTPState() {
+            return currentHTTPState;
+        }
+
+        function getCurrentHTTPResponse() {
+            return currentHTTPResponse;
+        }
+
+        function makeIntervalsGetRequest(url, accessToken) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                currentHTTPState = xmlHttp.readyState;
+
+                if (xmlHttp.readyState == 4)
+                    currentHTTPResponse = xmlHttp.responseText;
+            }
+            xmlHttp.open("GET", url, true); // true for asynchronous
+            xmlHttp.setRequestHeader('Authorization', 'Basic ' + accessToken)
+            xmlHttp.send(null);
+        }
+    </script>
 </body>
 
 </html>

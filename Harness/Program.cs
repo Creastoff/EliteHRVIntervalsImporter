@@ -35,7 +35,7 @@ namespace Harness
         private async static Task<bool> Process(List<HRVReading> readings, string id, string accessToken)
         {
             var serviceProvider = new ServiceCollection();
-            serviceProvider.AddIntervalsHttpClient($"https://intervals.icu/api/v1/athlete/", accessToken);
+            serviceProvider.AddIntervalsOverHttpClient($"https://intervals.icu/api/v1/athlete/", accessToken);
             serviceProvider.BuildServiceProvider();
             var service = serviceProvider.BuildServiceProvider();
             var httpClientFactory = service.GetRequiredService<IHttpClientFactory>();
